@@ -176,23 +176,51 @@ class LinkedList {
         return ll;                                  //return new linkedlist!
     }
 
+
+}
+class Exercise{
+    public void addSameNode(LinkedList llA, LinkedList llB, int nodeValue) {
+        Node newNode = new Node();                  //function to add the intersection in the linked list
+        newNode.data = nodeValue;
+        llA.tail.next = newNode;                    //adding at the tail of first linked list
+        llA.tail = newNode;
+        llB.tail.next = newNode;                    //adding at the tail of second linked list
+        llB.tail = newNode;
+
+    }
+    public Node findIntersection(LinkedList ll1, LinkedList ll2){
+        if(ll1.head==null || ll2.head==null) return null;
+        Node temp1 = ll1.head;
+        while(temp1!=null){                          //traversing through the first linkedlist
+            Node temp2 = ll2.head;                   //initializing the head of second linkedlist after every loop to check if the intersection is at head of second linkedlist
+            while(temp2!=null){
+                if(/*temp1.data==temp2.data && temp1.next==temp2.next*/temp1==temp2){ //checking the condition of intersection we can write it as temp1==temp2
+                    return temp1;                       //if found return the node
+                }
+                temp2=temp2.next;                       //increment of  the node
+            }
+            temp1=temp1.next;
+        }
+        return null;                                    //if not found the intersection anywhere in the linkedlist then return null
+    }
 }
 
 public class demo {
     public static void main(String[] args) {
-        LinkedList ll1 = new LinkedList();
-        LinkedList ll2 = new LinkedList();
-        ll1.insertNode(8,0);
-        ll1.insertNode(5,0);
-        ll1.insertNode(2,0);
-        ll2.insertNode(4,0);
-        ll2.insertNode(1,0);
-        ll2.insertNode(3,0);
-        ll1.traversal();
-        ll2.traversal();
-        LinkedList ll = new LinkedList();
-        ll=ll.sumLists(ll1,ll2);
-        ll.traversal();
-        
+        LinkedList llA = new LinkedList();
+        llA.insertNode(9,0);
+        llA.insertNode(5,0);
+        llA.insertNode(1,0);
+        llA.insertNode(1,0);
+        LinkedList llB = new LinkedList();
+        llB.insertNode(6,0);
+        llB.insertNode(4,0);
+        llB.insertNode(2,0);
+        Exercise ex = new Exercise();
+        ex.addSameNode(llA, llB, 7);
+        ex.addSameNode(llA, llB, 2);
+        ex.addSameNode(llA, llB, 1);
+        Node inter = ex.findIntersection(llA, llB);
+        System.out.println(inter.data);
     }
 }
