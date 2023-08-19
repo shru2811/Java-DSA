@@ -145,6 +145,7 @@ class LinkedList {
             }
             temp=next;                              //update to the next
         }
+
     }
     public LinkedList sumLists(LinkedList ll1,LinkedList ll2){
                                                     //create the first digit
@@ -174,6 +175,33 @@ class LinkedList {
         }
 
         return ll;                                  //return new linkedlist!
+    }
+
+    public String rotate(int number){               //program to rotate the given linkedlist by the input number
+        if(number>=size){                           //if number entered is greater than size then the rotation is not possible
+            return "No Rotation";
+        }
+        Node temp = head;
+        for(int i=0;i<number-1;i++){                //loop to the node before the rotation point
+            temp=temp.next;
+        }
+        tail.next = head;                           //updating the tail's next by pointing it to head
+        head=temp.next;                             //updating the head to new head
+        temp.next=null;                             //breaking the linkedlist from the rotation point
+        tail=temp;                                  //updating the tail
+        return "Success";
+
+    }
+    public boolean set(int index, int value) {
+        if(index>=size || head==null){              // return false if index value is invalid
+            return false;
+        }
+        Node temp = head;
+        for(int i=0;i<index;i++){                   //loop to the node where the value of node is needed to be changed
+            temp=temp.next;
+        }
+        temp.data=value;                            //update the value
+        return true;                                //return true
     }
 
 
@@ -211,16 +239,10 @@ public class demo {
         llA.insertNode(9,0);
         llA.insertNode(5,0);
         llA.insertNode(1,0);
-        llA.insertNode(1,0);
-        LinkedList llB = new LinkedList();
-        llB.insertNode(6,0);
-        llB.insertNode(4,0);
-        llB.insertNode(2,0);
-        Exercise ex = new Exercise();
-        ex.addSameNode(llA, llB, 7);
-        ex.addSameNode(llA, llB, 2);
-        ex.addSameNode(llA, llB, 1);
-        Node inter = ex.findIntersection(llA, llB);
-        System.out.println(inter.data);
+        llA.insertNode(8,0);
+        llA.insertNode(7,0);
+        llA.traversal();
+        String str = llA.rotate(3);
+        llA.traversal();
     }
 }
