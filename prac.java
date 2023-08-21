@@ -1,6 +1,10 @@
 
                                     /*THIS FILE WILL CONTAIN THE ALGORITHM QUESTIONS*/
 
+<<<<<<< HEAD
+=======
+import java.util.Scanner;
+>>>>>>> f8f834a9743996ede2d633906e062e9a9ca7bc93
 public class prac {
     public static void insSort(int[] arr){
         for(int i=1;i<arr.length;i++){              //itterate through the unsorted array
@@ -14,10 +18,14 @@ public class prac {
         }
     }
     public static void main(String[] args) {
+<<<<<<< HEAD
         int[] arr =  {5,4,3,2,1};
         insSort(arr);
         for(int i:arr){
             System.out.println(i);
         }
+=======
+       
+>>>>>>> f8f834a9743996ede2d633906e062e9a9ca7bc93
     }
 }
