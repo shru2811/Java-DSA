@@ -1,10 +1,7 @@
 
                                     /*THIS FILE WILL CONTAIN THE ALGORITHM QUESTIONS*/
 
-<<<<<<< HEAD
-=======
-import java.util.Scanner;
->>>>>>> f8f834a9743996ede2d633906e062e9a9ca7bc93
+
 public class prac {
     public static void insSort(int[] arr){
         for(int i=1;i<arr.length;i++){              //itterate through the unsorted array
@@ -17,15 +14,27 @@ public class prac {
             arr[j+1]=key;
         }
     }
-    public static void main(String[] args) {
-<<<<<<< HEAD
-        int[] arr =  {5,4,3,2,1};
-        insSort(arr);
-        for(int i:arr){
-            System.out.println(i);
+    public static void conquer(int []arr,int si,int mid,int ei){
+
+    }
+    public static void divide(int []arr,int si,int ei){
+        if(si>=ei){
+            return;
         }
-=======
-       
->>>>>>> f8f834a9743996ede2d633906e062e9a9ca7bc93
+        int mid = si + (ei-si)/2;
+        divide(arr,si,mid);
+        divide(arr,mid+1,ei);
+        conquer(arr,si,mid,ei);
+    }
+    public static int fibonacci(int n){
+        if(n==0 || n==1) return n;
+        else{
+            int res = fibonacci(n-1) + fibonacci(n-2);
+            return res;
+        }
+    }
+    public static void main(String[] args) {
+
+        System.out.println(fibonacci(0));
     }
 }
