@@ -36,9 +36,43 @@ public class Sorting {
         }
 
     }
+    static void swap(int a[],int i,int j){
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+    static int partition(int a[],int l,int h){
+        int pivot = a[l];
+        int i = l;
+        int j = h+1;
+        while(i<j){
+            do{
+                i+=1;
+            }while(a[i]<pivot && i<h);
+
+            do{
+                j-=1;
+            }while(a[j]>pivot);
+            if(i<=j)
+                swap(a,i,j);
+
+        }
+        swap(a,l,j);
+        return j;
+    }
+
+
+    static void quickSort(int arr[],int l,int h){
+        if(l<h){
+            int j = partition(arr,l,h);
+            quickSort(arr,l,j-1);
+            quickSort(arr,j+1,h);
+        }
+    }
+
     public static void main(String[] args) {
-        int arr[] = {89, 45, 23, 67, 78};
-        mergeSort(arr, 0, arr.length - 1);
+        int arr[] = {9,8,7,6,5,4,3,2,1};
+        quickSort(arr, 0, arr.length - 1);
         for (int i : arr) {
             System.out.print(i + " ");
         }
