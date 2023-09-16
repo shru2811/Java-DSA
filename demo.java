@@ -236,7 +236,6 @@ class Exercise{
 public class demo {
     public static void main(String[] args) {
         LinkedList llA = new LinkedList();
-        llA.insertNode(9,0);
         llA.insertNode(5,0);
         llA.insertNode(1,0);
         llA.insertNode(8,0);
