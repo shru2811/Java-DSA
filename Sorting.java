@@ -70,12 +70,37 @@ public class Sorting {
         }
     }
 
-    public static void main(String[] args) {
-        int arr[] = {9,8,7,6,5,4,3,2,1};
-        quickSort(arr, 0, arr.length - 1);
-        for (int i : arr) {
-            System.out.print(i + " ");
+    static void selectionSort(int arr[]){
+        for(int i=0;i<arr.length-1;i++){
+            int min = i;
+            for(int j=i+1;j<arr.length;j++){
+                if(arr[min]>arr[j])
+                    min=j;
+            }
+            int temp = arr[i];
+            arr[i] = arr[min];
+            arr[min] = temp;
         }
+
+    }
+
+    static int kadaneAlgo(int arr[]){
+        int n= arr.length;
+        int maxsum=Integer.MIN_VALUE;
+        int cursum = 0;
+        int i;
+        for(i=0;i<n;i++){
+            cursum+=arr[i];
+            if(maxsum<cursum)
+                maxsum = cursum;
+            if(cursum<0)
+                cursum=0;
+        }
+        return maxsum;
+    }
+    public static void main(String[] args) {
+        int arr[] = {1,-7,4,5,3,-1};
+        System.out.println(kadaneAlgo(arr));
     }
 
 }
