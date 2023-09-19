@@ -41,9 +41,9 @@ public class BinaryTree {
 
     }
 
-    static void levelOrder(BTreeNode node){         //POST ORDER TRAVERSAL
+    void levelOrder(){                          //LEVEL ORDER TRAVERSAL
         Queue<BTreeNode> que = new LinkedList<BTreeNode>();
-        que.add(node);
+        que.add(root);
         while(!que.isEmpty()){
             BTreeNode presentNode = que.remove();
             System.out.print(presentNode.value+" ");
@@ -52,6 +52,53 @@ public class BinaryTree {
             if(presentNode.right!=null)
                 que.add(presentNode.right);
         }
+    }
+
+    void search(String value){
+        Queue<BTreeNode> que = new LinkedList<BTreeNode>();             //SEARCHING THE NODE IN TREE
+        que.add(this.root);
+        while(!que.isEmpty()) {
+            BTreeNode presentNode = que.remove();
+            if (presentNode.value == value) {
+                System.out.println("The element is found");
+                return;
+            }
+            if (presentNode.left != null)
+                que.add(presentNode.left);
+            if (presentNode.right != null)
+                que.add(presentNode.right);
+        }
+        System.out.println("element not found");
+    }
+
+    void insertNode(String value){                              //INSERT A NODE IN TREE
+        BTreeNode newNode = new BTreeNode();
+        newNode.value = value;
+        if(root==null){
+            root=newNode;
+            System.out.println("inserted at root");
+            return;
+        }
+        Queue<BTreeNode> que = new LinkedList<BTreeNode>();
+        que.add(this.root);
+        while(!que.isEmpty()) {
+            BTreeNode presentNode = que.remove();
+            if (presentNode.left==null) {
+                presentNode.left=newNode;
+                System.out.println("Insertion completed");
+                return;
+            }
+            else if (presentNode.right == null){
+                presentNode.right=newNode;
+                System.out.println("Insertion completed");
+                return;
+            }
+            else{
+                que.add(presentNode.left);
+                que.add(presentNode.right);
+            }
+        }
+
     }
 
     public static void main(String[] args) {
@@ -74,6 +121,7 @@ public class BinaryTree {
         n8.value = "n8";
         BTreeNode n9 = new BTreeNode();
         n9.value = "n9";
+        bt.root = n1;
 
         n1.left = n2;
         n1.right = n3;
@@ -97,8 +145,14 @@ public class BinaryTree {
         postOrder(n1);
         System.out.println();
         System.out.print("level order traversal: ");
-        levelOrder(n1);
+        bt.levelOrder();
+        System.out.println();
+        bt.insertNode("n10");
+        System.out.print("level order traversal: ");
+        bt.levelOrder();
+        System.out.println();
+        BinaryTree bt2 = new BinaryTree();
+        bt2.insertNode("m1");
+        bt2.levelOrder();
     }
-
-
 }
