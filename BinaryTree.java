@@ -52,6 +52,7 @@ public class BinaryTree {
             if(presentNode.right!=null)
                 que.add(presentNode.right);
         }
+        System.out.println();
     }
 
     void search(String value){
@@ -101,58 +102,81 @@ public class BinaryTree {
 
     }
 
+    public BTreeNode getDeepest(){
+        Queue<BTreeNode> que = new LinkedList<BTreeNode>();
+        que.add(root);
+        BTreeNode presentNode = null;
+        while(!que.isEmpty()){
+            presentNode = que.remove();
+            if(presentNode.left!=null)
+                que.add(presentNode.left);
+            if(presentNode.right!=null)
+                que.add(presentNode.right);
+        }
+        return presentNode;
+    }
+
+    void deleteDeepNode(){
+        Queue<BTreeNode> que = new LinkedList<BTreeNode>();
+        que.add(root);
+        BTreeNode presentNode = null;
+        BTreeNode previousNode=null;
+        while(!que.isEmpty()){
+            previousNode = presentNode;
+            presentNode = que.remove();
+            if(presentNode.left==null){
+                previousNode.right = null;
+                return;
+            }
+            else if(presentNode.right==null) {
+                presentNode.left = null;
+                return;
+            }
+            que.add(presentNode.left);
+            que.add(presentNode.right);
+        }
+    }
+
+    //delete any node
+    void deleteNode(String val){
+        Queue<BTreeNode> que = new LinkedList<BTreeNode>();
+        que.add(root);
+        BTreeNode presentNode = null;
+        while(!que.isEmpty()){
+            presentNode = que.remove();
+            if(presentNode.value == val){
+                presentNode.value = getDeepest().value;
+                deleteDeepNode();
+                System.out.println("deletion successfull");
+                return;
+            }
+            else{
+                if(presentNode.left!=null)
+                    que.add(presentNode.left);
+                if(presentNode.right!=null)
+                    que.add(presentNode.right);
+            }
+        }
+        System.out.println("Node with the given value doesn't exist");
+    }
+
+    void delBinTree(){
+        root = null;
+        System.out.println("deleted the whole binary tree");
+    }
     public static void main(String[] args) {
         BinaryTree bt = new BinaryTree();
-        BTreeNode n1 = new BTreeNode();
-        n1.value = "n1";
-        BTreeNode n2 = new BTreeNode();
-        n2.value = "n2";
-        BTreeNode n3 = new BTreeNode();
-        n3.value = "n3";
-        BTreeNode n4 = new BTreeNode();
-        n4.value = "n4";
-        BTreeNode n5 = new BTreeNode();
-        n5.value = "n5";
-        BTreeNode n6 = new BTreeNode();
-        n6.value = "n6";
-        BTreeNode n7 = new BTreeNode();
-        n7.value = "n7";
-        BTreeNode n8 = new BTreeNode();
-        n8.value = "n8";
-        BTreeNode n9 = new BTreeNode();
-        n9.value = "n9";
-        bt.root = n1;
-
-        n1.left = n2;
-        n1.right = n3;
-
-        n2.left = n4;
-        n2.right = n5;
-
-        n3.left = n6;
-        n3.right = n7;
-
-        n4.left = n8;
-        n4.right = n9;
-
-        System.out.print("pre order traversal: ");
-        preOrder(n1);
-        System.out.println();
-        System.out.print("in order traversal: ");
-        inOrder(n1);
-        System.out.println();
-        System.out.print("post order traversal: ");
-        postOrder(n1);
-        System.out.println();
-        System.out.print("level order traversal: ");
+        bt.insertNode("n1");
+        bt.insertNode("n2");
+        bt.insertNode("n3");
+        bt.insertNode("n4");
+        bt.insertNode("n5");
+        bt.insertNode("n6");
         bt.levelOrder();
-        System.out.println();
-        bt.insertNode("n10");
-        System.out.print("level order traversal: ");
+        bt.deleteNode("n4");
         bt.levelOrder();
-        System.out.println();
-        BinaryTree bt2 = new BinaryTree();
-        bt2.insertNode("m1");
-        bt2.levelOrder();
+        bt.deleteNode("n4");
+        bt.delBinTree();
+
     }
 }
