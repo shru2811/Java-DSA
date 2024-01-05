@@ -1,156 +1,112 @@
-import java.util.LinkedList;
 import java.util.Queue;
 
-class BinaryNode{
-    public int value;
-    public int height;
-    public BinaryNode left;
-    public BinaryNode right;
+class BST{
+    class Node {
+        public int value;
+        private Node left;
+        private Node right;
+        public int hieght;
 
-}
-class BinarySearchTree{
-    BinaryNode root;
-    BinarySearchTree(){
-        root = null;
+        Node(int value) {
+            this.value = value;
+        }
+
+        int getValue() {
+            return this.value;
+        }
+
     }
-    //Insertion of Node
-    private BinaryNode insertion(BinaryNode currNode,int value){
-        if(currNode==null && currNode==root){
-            BinaryNode newNode = new BinaryNode();
-            newNode.value = value;
-            root = newNode;
-//            System.out.println("Successfully Inserted");
-            return root;
+    private Node root;
+    int gethieght(Node node) {
+        if(node==null)
+            return -1;
+        return node.hieght;
+    }
+    boolean isEmpty(){
+        return root==null;
+    }
+    public void display(){
+        show(root,"Root node: ");
+    }
+    private void show(Node node, String details){
+        if(node==null){
+            return;
         }
-        if(currNode==null){
-            BinaryNode newNode = new BinaryNode();
-            newNode.value = value;
-//            System.out.println("Successfully Inserted");
-            return newNode;
-        }
-        else if(value<=currNode.value){
-            currNode.left = insertion(currNode.left,value);
-            return currNode;
-        }else{
-            currNode.right = insertion(currNode.right,value);
-            return currNode;
-        }
+        System.out.println(details + node.getValue());
+        show(node.left,"left child of "+node.getValue()+" ");
+        show(node.right,"right child of "+node.getValue()+" ");
     }
     public void insert(int value){
-        insertion(root,value);
+        root = insertion(root,value);
     }
-    //pre-Order traversal
-    public void preOrder(BinaryNode node ){
+    private Node insertion(Node node, int value){
+        if(node==null){
+            node = new Node(value);
+            return node;
+        }
+        if(node.value>value){
+            node.left = insertion(node.left,value);
+        }
+        if(node.value<value){
+            node.right = insertion(node.right,value);
+        }
+        node.hieght = Math.max(gethieght(node.left),gethieght(node.right))+1;
+        return node;
+    }
+    public boolean balanced(){
+        return balanced(root);
+    }
+    private boolean balanced(Node node) {
+        if (node == null)
+            return true;
+        return Math.abs(gethieght(node.left)-gethieght(node.right))<=1 && balanced(node.left) && balanced(node.right) ;
+    }
+    public void populate(int nums[]){
+        for(int i=0;i<nums.length;i++){
+            this.insert(nums[i]);
+        }
+    }
+    public void populateSorted(int[] nums){
+        populateSorted(nums,0,nums.length);
+    }
+    private void populateSorted(int[] nums, int start, int end){
+        if(start>=end){
+            return;
+        }
+        int mid = start + (end-start)/2;
+        insert(nums[mid]);
+        populateSorted(nums,start,mid);
+        populateSorted(nums,mid+1,end);
+    }
+    public void preOrder(Node node){
         if(node==null)
             return;
-
-        System.out.print(node.value+ " ");
+        System.out.println(node.value + " ");
         preOrder(node.left);
         preOrder(node.right);
     }
-
-    public void inOrder(BinaryNode node ){
+    public void inOrder(Node node){
         if(node==null)
             return;
         inOrder(node.left);
-        System.out.print(node.value+ " ");
+        System.out.println(node.value + " ");
         inOrder(node.right);
     }
-    public void postOrder(BinaryNode node ){
+    public void postOrder(Node node){
         if(node==null)
             return;
         postOrder(node.left);
         postOrder(node.right);
-        System.out.print(node.value+ " ");
-
-    }
-    public void levelOrder(){                          //LEVEL ORDER TRAVERSAL
-        Queue<BinaryNode> que = new LinkedList<BinaryNode>();
-        que.add(root);
-        while(!que.isEmpty()){
-            BinaryNode presentNode = que.remove();
-            System.out.print(presentNode.value+" ");
-            if(presentNode.left!=null)
-                que.add(presentNode.left);
-            if(presentNode.right!=null)
-                que.add(presentNode.right);
-        }
-        System.out.println();
-    }
-    public BinaryNode search(BinaryNode node, int value){
-        if(node==null){
-            System.out.println("The node is not found in BST");
-            return null;
-        }else if(node.value == value){
-            System.out.println("The node is found in BST");
-            return node;
-        }else if(node.value<value){
-            return search(node.right,value);
-        }else{
-            return search(node.left,value);
-        }
-    }
-    public void delBST(){
-        root = null;
-        System.out.println("The BST is successfully deleted!");
-    }
-    // Minimum node
-    public static BinaryNode minimumNode(BinaryNode root) {
-        if (root.left == null) {
-            return root;
-        } else {
-            return minimumNode(root.left);
-        }
+        System.out.println(node.value + " ");
     }
 
-    // Delete node
-    public BinaryNode deleteNode(BinaryNode root, int value) {
-        if (root == null) {
-            System.out.println("Value not found in BST");
-            return null;
-        }
-        if (value < root.value) {
-            root.left = deleteNode(root.left, value);
-        } else if (value > root.value) {
-            root.right = deleteNode(root.right, value);
-        } else {
-            if (root.left != null && root.right != null) {
-                BinaryNode temp = root;
-                BinaryNode minNodeForRight = minimumNode(temp.right);
-                root.value = minNodeForRight.value;
-                root.right = deleteNode(root.right, minNodeForRight.value);
-            } else if (root.left != null) {
-                root = root.left;
-            } else if (root.right != null) {
-                root = root.right;
-            } else {
-                root = null;
-            }
-        }
-
-        return root;
-
-    }
 }
+
 public class runBST {
     public static void main(String[] args) {
-        BinarySearchTree bst = new BinarySearchTree();
-        bst.insert(70);
-        bst.insert(50);
-        bst.insert(90);
-        bst.insert(30);
-        bst.insert(60);
-        bst.insert(80);
-        bst.insert(100);
-        bst.insert(20);
-        bst.insert(40);
-        bst.preOrder(bst.root);
-        System.out.println();
-        bst.inOrder(bst.root);
-        System.out.println();
-        bst.postOrder(bst.root);
-        System.out.println();
-        bst.levelOrder();
-        bst.search(bst.root, 10);
+        BST tree = new BST();
+        int[]arr = {1,2,3,4,5,6,7};
+        tree.populateSorted(arr);
+        tree.display();
     }
 }
