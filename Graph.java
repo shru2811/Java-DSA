@@ -88,6 +88,40 @@ public class Graph {
         graph[dest].add(src);
         System.out.println("insertion done");
     }
+    void insertDirected(int src, int dest){
+        graph[src].add(dest);
+        System.out.println("An edge created directing from "+ src +" to "+dest);
+    }
+    int[] calcInDegree(){
+        int[] inDegree = new int[graph.length];
+        for(int i=0;i<graph.length;i++){
+            for(int j: graph[i]){
+                inDegree[j]++;
+            }
+        }
+        return inDegree;
+    }
+    void topologicalSort(){     //add the nodes with 0 inDegree in queue and print it => sorted!!
+        int[] a = calcInDegree();
+        Queue<Integer> stk = new LinkedList<>();
+        for(int i=0;i<a.length;i++){
+            if(a[i]==0){
+                stk.add(i);
+            }
+        }
+        while(!stk.isEmpty()){
+            int front = stk.poll();                       //pull out front element of queue print it and then one by one store each neigbour of the node in the queue
+            System.out.print(front+ " ");
+
+            for(int i:graph[front]){
+                if(--a[i] == 0){
+                    stk.add(i);
+                }
+            }
+        }
+    }
+
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the number of vertex: ");
@@ -100,8 +134,10 @@ public class Graph {
             int src = sc.nextInt();
             System.out.println("enter the destination: ");
             int dest = sc.nextInt();
-            gp.insert(src, dest);
+            gp.insertDirected(src, dest);
         }
-        gp.dfs(0);
+        int[] arr = gp.calcInDegree();
+        gp.topologicalSort();
+
     }
 }
